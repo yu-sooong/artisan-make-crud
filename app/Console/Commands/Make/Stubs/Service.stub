@@ -1,0 +1,67 @@
+<?php
+namespace App\Http\Services;
+
+use App\Http\Repository\{{NameRepository}};
+
+class DummyClass
+{
+    protected $_{{NameRepositoryLowerFirstCase}};
+
+    public function __construct({{NameRepository}} ${{NameRepositoryLowerFirstCase}})
+    {
+        $this->_{{NameRepositoryLowerFirstCase}} = ${{NameRepositoryLowerFirstCase}};
+    }
+
+    /**
+     * get list
+     * @param $request
+     * @return mixed
+     */
+    public function getList($request)
+    {
+        return $this->_{{NameRepositoryLowerFirstCase}}->getList($request);
+    }
+
+    /**
+     * get single data
+     * @param $id
+     * @return mixed
+     */
+    public function getSingleData($id)
+    {
+        $select = ["id", "name"];
+        return $this->_{{NameRepositoryLowerFirstCase}}->getSingleData($id, $select);
+    }
+
+    /**
+     * create
+     * @param $request
+     * @return mixed
+     */
+    public function create($request)
+    {
+        return $this->_{{NameRepositoryLowerFirstCase}}->create($request);
+    }
+
+
+    /**
+     * destroy
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        return $this->_{{NameRepositoryLowerFirstCase}}->delete($id);
+    }
+
+    /**
+     * update
+     * @param $id
+     * @param $request
+     * @return mixed
+     */
+    public function update($id, $request)
+    {
+        return $this->_{{NameRepositoryLowerFirstCase}}->update($id, $request);
+    }
+}

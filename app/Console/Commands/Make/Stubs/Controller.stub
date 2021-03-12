@@ -1,0 +1,107 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Http\Services\{{NameService}};
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class {{NameController}} extends Controller
+{
+    //
+    private $_{{NameLowerService}};
+
+    public function __construct({{NameService}} ${{NameLowerService}})
+    {
+        $this->_{{NameLowerService}} = ${{NameLowerService}};
+    }
+
+    /**
+     * index
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        $list = $this->_{{NameLowerService}}->getList($request->all());
+        return response()->json($list);
+    }
+
+    /**
+     * show
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        try {
+            $data = $this->_{{NameLowerService}}->getSingleData($id);
+            return response()->json($data);
+        } catch (ModelNotFoundException $e) {
+            return response()->json('找無此資料', 404);
+        } catch (\Exception $e) {
+            return response()->json('請聯絡管理員', 400);
+        }
+    }
+
+    /**
+     * store
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $this->_{{NameLowerService}}->create($request->all());
+            DB::commit();
+            return response()->noContent(201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json('請聯絡管理員', 400);
+        }
+    }
+
+    /**
+     * update
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $this->_{{NameLowerService}}->update($id, $request->all());
+            DB::commit();
+            return response()->noContent(200);
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            return response()->json('找無此資料', 404);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json('請聯絡管理員', 400);
+        }
+    }
+
+    /**
+     * destroy
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            $this->_{{NameLowerService}}->destroy($id);
+            DB::commit();
+            return response()->noContent(204);
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            return response()->json('找無此資料', 404);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json('請聯絡管理員', 400);
+        }
+    }
+}
